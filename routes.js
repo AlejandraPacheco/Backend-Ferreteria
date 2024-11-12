@@ -234,5 +234,17 @@ router.post('/perfil_usuario', (req, res) => {
   });
 });
 
+// Ruta para obtener todos los usuarios
+router.get('/api/usuarios', (req, res) => {
+  db.query('SELECT * FROM usuario', (error, results) => {
+    if (error) {
+      console.error('Error al obtener los datos de la base de datos:', error);
+      res.status(500).json({ error: 'Error al obtener los datos de la base de datos' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
 
 module.exports = router;
