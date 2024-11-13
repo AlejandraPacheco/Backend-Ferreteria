@@ -34,13 +34,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Wait for MySQL to be ready
-        run: |
-          until mysqladmin --host=localhost --port=3306 ping --silent; do
-            echo "Waiting for MySQL to be ready..."
-            sleep 5
-          done
-
       - name: Run Mocha tests
         env:
           MYSQL_HOST: 'localhost'
