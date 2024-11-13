@@ -39,8 +39,8 @@ jobs:
 
       - name: Run Mocha tests
         env:
-          MYSQL_HOST: 'mysql'
-          MYSQL_PORT: '3306'
+          MYSQL_HOST: '3306'
+          MYSQL_PORT: '3307'
           MYSQL_USER: 'root'
           MYSQL_DATABASE: 'ferreteria'
         run: npx mocha bdd.test.js
