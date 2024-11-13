@@ -34,6 +34,9 @@ jobs:
           mysql user: 'root'
           mysql password: 'root'
 
+      - name: Install Mocha Globally
+        run: npm install -g mocha
+
       - name: Run Mocha tests
         env:
           MYSQL_HOST: 'localhost'
