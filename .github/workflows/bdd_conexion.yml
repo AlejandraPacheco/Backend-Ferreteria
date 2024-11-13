@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Install dependencies
+        run: npm install
+
       - name: Start MySQL Service
         uses: mirromutth/mysql-action@v1.1
         with:
@@ -27,17 +30,14 @@ jobs:
           collation server: 'utf8_general_ci'
           mysql version: '8.0'
           mysql database: 'ferreteria'
-          mysql root password: 'root'
-          mysql user: ''
+          mysql root password: ''
+          mysql user: 'root'
           mysql password: ''
-
-      - name: Install dependencies
-        run: npm install
 
       - name: Run Mocha tests
         env:
           MYSQL_HOST: 'localhost'
           MYSQL_PORT: '3306'
-          MYSQL_USER: ''
+          MYSQL_USER: 'root'
           MYSQL_DATABASE: 'ferreteria'
         run: npx mocha bdd.test.js
