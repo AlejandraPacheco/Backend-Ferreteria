@@ -9,20 +9,6 @@ jobs:
   test-database-connection:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ROOT_PASSWORD: 'root'
-          MYSQL_DATABASE: ferreteria
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin --host=localhost --user=root --password='root' ping --silent" 
-          --health-interval=10s
-          --health-timeout=20s
-          --health-retries=5
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -32,20 +18,33 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Instalar las dependencias
+      - name: Start MySQL Service
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: 3306
+          container port: 3307
+          character set server: 'utf8'
+          collation server: 'utf8_general_ci'
+          mysql version: '8.0'
+          mysql database: 'ferreteria'
+          mysql root password: 'root'
+          mysql user: ''
+          mysql password: ''
+
+      - name: Install dependencies
         run: npm install
 
-      - name: Wait for MySQL
+      - name: Wait for MySQL to be ready
         run: |
-          until mysqladmin --host=mysql --user=root --password='root' ping --silent; do
+          until mysqladmin --host=localhost --port=3306 ping --silent; do
             echo "Waiting for MySQL to be ready..."
             sleep 5
           done
 
       - name: Run Mocha tests
         env:
-          MYSQL_HOST: 'mysql' 
-          MYSQL_USER: 'root'
-          MYSQL_PASSWORD: 'root'
+          MYSQL_HOST: 'localhost'
+          MYSQL_PORT: '3306'
+          MYSQL_USER: ''
           MYSQL_DATABASE: 'ferreteria'
         run: npx mocha bdd.test.js
