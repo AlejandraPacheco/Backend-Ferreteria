@@ -1,6 +1,7 @@
-const express = require('express');
+import { createConnection } from './bdd.js';
+const db = createConnection();
+import express from 'express';
 const router = express.Router();
-const db = require('./bdd'); // Configuración de la base de datos
 
 // Ruta para obtener todos los productos
 router.get('/api/datos', (req, res) => {
@@ -247,4 +248,4 @@ router.get('/api/usuarios', (req, res) => {
 });
 
 
-module.exports = router;
+export default router;
