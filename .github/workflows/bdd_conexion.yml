@@ -32,7 +32,7 @@ jobs:
           mysql database: 'ferreteria'
           mysql root password: ''
           mysql user: 'root'
-          mysql password: ''
+          mysql password: 'root'
 
       - name: Run Mocha tests
         env:
